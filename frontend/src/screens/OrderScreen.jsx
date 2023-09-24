@@ -2,7 +2,12 @@ import { Link, useParams } from "react-router-dom";
 import { Row, Col, ListGroup, Image, Form, Button, Card } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPaypalClientIdQuery } from "../slices/ordersApiSlice";
+import { 
+    useGetOrderDetailsQuery, 
+    usePayOrderMutation, 
+    useGetPaypalClientIdQuery, 
+    useDeliverOrderMutation 
+} from "../slices/ordersApiSlice";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -16,6 +21,7 @@ const OrderScreen = () => {
     const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId);
     
     const [payOrder, {isLoading: loadingPay}] = usePayOrderMutation();
+    const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
     const [{ isPending }, paypalDispatch ] = usePayPalScriptReducer();
     const { data: paypal, isLoading: loadingPaypal, error: errorPaypal } = useGetPaypalClientIdQuery();
 
@@ -77,6 +83,16 @@ const OrderScreen = () => {
         }).then((orderId) => {
             return orderId;
         });
+    }
+
+    const deliverOrderHandler = async () => {
+        try {
+            await deliverOrder(orderId);
+            refetch();
+            toast.success('Order delivered');
+        } catch (err) {
+            toast.error(err?.data?.message || err.message);
+        }
     }
 
   return isLoading ? <Loader /> : error ? <Message variant='danger' /> 
@@ -192,7 +208,19 @@ const OrderScreen = () => {
                                 )}
                             </ListGroup.Item>
                         ) }
-                        { /* MARK AS DELIVERED PLACEHOLDER */ }
+
+                        { loadingDeliver && <Loader /> }
+
+                        { userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                            <ListGroup.Item>
+                                <Button 
+                                    type="button" 
+                                    className="btn btn-block"
+                                    onClick={deliverOrderHandler}>
+                                    Mark as Delivered
+                                </Button>
+                            </ListGroup.Item>
+                        ) }
                     </ListGroup>
                 </Card>
             </Col>
