@@ -1,7 +1,7 @@
 import React from 'react';
 import { Badge, Navbar, Nav, Container, NavbarBrand, NavDropdown } from 'react-bootstrap';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
-import logo from '../assets/logo.png';
+import logo from '../assets/new.png';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../slices/usersApiSlice';
@@ -32,12 +32,12 @@ const Header = () => {
 
   return (
     <header>
-        <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
+        <Navbar style={{ background: 'linear-gradient(to right, rgb(188, 147, 119), rgb(101, 178, 192))' }} expand='lg' collapseOnSelect> 
             <Container>
                 <LinkContainer to='/'>
                     <Navbar.Brand>
-                        <img src={logo} alt='ProShop'/>
-                        ProShop
+                        <img src={logo} alt='ProShop' style={{ marginRight: '5px' }} />
+                        NTechnology
                     </Navbar.Brand>    
                 </LinkContainer>
                 <Navbar.Toggle aria-controls='basic-navbar-nav'/>
