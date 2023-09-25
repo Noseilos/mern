@@ -120,6 +120,7 @@ const ProductEditScreen = () => {
                             onChange={ uploadFileHandler }>
                         </Form.Control>
                     </FormGroup>
+                    { loadingUpload && <Loader /> }
                     
                     <FormGroup controlId="brand" className="my-2">
                         <Form.Label>Brand</Form.Label>

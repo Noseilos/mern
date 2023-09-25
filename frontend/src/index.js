@@ -24,7 +24,10 @@ import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import ProfileScreen from './screens/ProfileScreen';
+
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
+import { HelmetProvider } from 'react-helmet-async';
+
 import OrderListScreen from './screens/admin/OrderListScreen';
 import ProductListScreen from './screens/admin/ProductListScreen';
 import ProductEditScreen from './screens/admin/ProductEditScreen';
@@ -66,11 +69,13 @@ const router = createBrowserRouter(
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <PayPalScriptProvider deferLoading={ true }>
-        <RouterProvider router={router} />
-      </PayPalScriptProvider>
-    </Provider>
+    <HelmetProvider>
+      <Provider store={store}>
+        <PayPalScriptProvider deferLoading={ true }>
+          <RouterProvider router={router} />
+        </PayPalScriptProvider>
+      </Provider>
+    </HelmetProvider>
   </React.StrictMode>
 );
 
