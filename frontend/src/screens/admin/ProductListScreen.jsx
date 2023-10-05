@@ -32,19 +32,6 @@ const ProductListScreen = () => {
         }
     }
 
-    const createProductHandler = async () =>{
-        if (window.confirm('Add new product?')) {
-            try {
-                await createProduct();
-                refetch();
-            } catch (err) {
-                toast.error(err?.data?.message || err.error);
-            }
-        } else {
-            
-        }
-    }
-
   return (
     <>
         <Row className='align-items-center'>
@@ -52,9 +39,11 @@ const ProductListScreen = () => {
                 <h1>Products</h1>
             </Col>
             <Col className='text-end'>
-                <Button className='btn-sm m-3' onClick={ createProductHandler }>
-                    <FaEdit /> Create product
-                </Button>
+                <LinkContainer to={`/admin/product/create`}>
+                    <Button className='btn-sm m-3'>
+                        <FaEdit /> Create product
+                    </Button>
+                </LinkContainer>
             </Col>
         </Row>
 
